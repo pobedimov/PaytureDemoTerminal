@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PaytureDemoTerminal</name>
+    </assembly>
+    <members>
+        <member name="T:PaytureDemoTerminal.ApiSettings">
+            <summary>
+            Представялет настройки Api, включающие домен и URI.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.ApiSettings.ApiDomain">
+            <summary>
+            Основной домен Api.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.ApiSettings.ApiEnvironment">
+            <summary>
+            Программная среда, предоставляется с параметрами тестового и коммерческого доступа.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.ApiSettings.ApiInterface">
+            <summary>
+            Используемый программный интерфейс.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.ApiSettings.ApiCommand">
+            <summary>
+            Название выполняемой команды.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.ApiSettings.GetFullApiAddress">
+            <summary>
+            Получает полный адрес URI для выполнения команды в соответствии с заданными настройками.
+            </summary>
+            <exception cref="T:System.UriFormatException">Ошибка формата Uri.</exception>
+            <exception cref="T:System.FormatException">Некорректно задан формат Uri.</exception>
+            <returns>Возвращает полный адрес URI для выполняемой команды Api.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Extentions.ConsoleOperator">
+            <summary>
+            Представляет класс для работы с вводом в консоль.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Extentions.ConsoleOperator.InputDigitDataConsole(System.Int32)">
+            <summary>
+            Осуществляет ввод цифр в консоле с ограничением по количеству.
+            </summary>
+            <param name="maxCharCount">Максимальное количество вводимых символов.</param>
+            <returns>Результирующая строка.</returns>
+        </member>
+        <member name="M:PaytureDemoTerminal.Extentions.ConsoleOperator.InputStringDataConsole(System.Int32)">
+            <summary>
+            Осуществляет ввод букв и пробелов в консоль с ограничением по количеству.
+            </summary>
+            <param name="maxCharCount">Максимальное количество вводимых символов.</param>
+            <returns>Результирующая строка.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Operations.IPayOperation">
+            <summary>
+            Представляет интерфейс платежной операции.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Operations.IPayOperation.ApiUri">
+            <summary>
+            Представляет адрес Api для выполнения операции Pay.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.IPayOperation.DisplayOperationInfo">
+            <summary>
+            Отображение запроса.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.IPayOperation.PayAsync">
+            <summary>
+            Отправляет запрос на выполнение операции Pay.
+            </summary>
+            <returns>Ответ от Api на операцию Pay.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Operations.Operation">
+            <summary>
+            Отправляет операцию и получает ответ.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.Operation.ExecuteAsync(System.Uri,System.Net.Http.HttpContent,System.Net.Http.Headers.MediaTypeWithQualityHeaderValue)">
+            <summary>
+            Выполняет операцию/запрос.
+            </summary>
+            <param name="uri">Адрес URI к Api</param>
+            <param name="httpContent">HttpContent данные для отправки.</param>
+            <param name="mediaTypeWithQualityHeaderValue">Тип получаемых в ответ данных.</param>
+            <exception cref="T:System.Net.Http.HttpRequestException">HTTP-ответ завершился неудачей.</exception>
+            <exception cref="T:System.ArgumentNullException">В качестве входящего параметра передана пустая ссылка.</exception>
+            <returns>Ответ от Api на операцию в виде строки.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Operations.PayOperationConsole">
+            <summary>
+            Представляет класс для создания платежа через Api Pay с вводом данных из консоли.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Operations.PayOperationConsole.ApiUri">
+            <summary>
+            Представляет адрес Api для выполнения операции Pay.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Operations.PayOperationConsole.RequestPay">
+            <summary>
+            Представляет запрос для операции "Pay" Api Payture.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationConsole.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationConsole.DisplayOperationInfo">
+            <summary>
+            Отображение запроса.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationConsole.PayAsync">
+            <summary>
+            Отправляет запрос на выполнение операции Pay.
+            </summary>
+            <exception cref="T:System.Net.Http.HttpRequestException">HTTP-ответ завершился неудачей.</exception>
+            <exception cref="T:System.UriFormatException">Ошибка формата Uri.</exception>
+            <exception cref="T:System.FormatException">Некорректно задан формат Uri.</exception>
+            <returns>Ответ от Api на операцию Pay.</returns>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationConsole.MakingInputData">
+            <summary>
+            Осуществляет ввод с консоли данных для формирования данных запроса операции.
+            </summary>
+        </member>
+        <member name="T:PaytureDemoTerminal.Operations.PayOperationDemo">
+            <summary>
+            Представляет класс для демонстрации операции Pay с данными из документации с сайта payture.com
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Operations.PayOperationDemo.ApiUri">
+            <summary>
+            Представляет адрес Api для выполнения операции Pay.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationDemo.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationDemo.DisplayOperationInfo">
+            <summary>
+            Отображение запроса.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Operations.PayOperationDemo.PayAsync">
+            <summary>
+            Отправляет запрос на выполнение операции Pay.
+            </summary>
+            <exception cref="T:System.Net.Http.HttpRequestException">HTTP-ответ завершился неудачей.</exception>
+            <exception cref="T:System.UriFormatException">Ошибка формата Uri.</exception>
+            <exception cref="T:System.FormatException">Некорректно задан формат Uri.</exception>
+            <returns>Ответ от Api на операцию Pay.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Requests.Request">
+            <summary>
+            Представляет базовый общий класс для платёжных операций Api.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.Request.Key">
+            <summary>
+            Наименование платежного Терминала.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.Request.OrderId">
+            <summary>
+            Уникальный идентификатор платежа в системе Продавца.
+            </summary>
+        </member>
+        <member name="T:PaytureDemoTerminal.Requests.RequestPay">
+            <summary>
+            Представляет запрос для операции "Pay" Api Payture.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.Amount">
+            <summary>
+            Сумма платежа в копейках (или другая минимальная единица валюты терминала).
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.PayInfo">
+            <summary>
+            Параметры для совершения транзакции.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.PaytureId">
+            <summary>
+            Идентификатор платежа в системе Payture AntiFraud.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.CustomerKey">
+            <summary>
+            Идентификатор Покупателя в системе Payture AntiFraud.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.CustomFields">
+            <summary>
+            Дополнительные поля транзакции.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPay.Cheque">
+            <summary>
+            Информация о чеке в формате JSON, закодированная в Base64.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Requests.RequestPay.GetUriPayRequest">
+            <summary>
+            Возвращает сформированный Uri для выполнения операции Pay.
+            </summary>
+            <returns>Строка запроса в формате Uri.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Requests.RequestPayInfo">
+            <summary>
+            Преставляет информацию о параметрах для совершения транзакции.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.PAN">
+            <summary>
+            Номер карты.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.EMonth">
+            <summary>
+            Месяц истечения срока действия карты.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.EYear">
+            <summary>
+            Год истечения срока действия карты.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.CardHolder">
+            <summary>
+            Фамилия и имя держателя карты.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.SecureCode">
+            <summary>
+            CVC2/CVV2 код.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.OrderId">
+            <summary>
+            Уникальный идентификатор платежа в системе Продавца.
+            </summary>
+        </member>
+        <member name="P:PaytureDemoTerminal.Requests.RequestPayInfo.Amount">
+            <summary>
+            Сумма платежа в копейках (или другая минимальная единица валюты терминала).
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Requests.RequestPayInfo.ToString">
+            <summary>
+            Сохраняет данные в строковом формате.
+            </summary>
+            <returns>Сформированная строка с параметрами.</returns>
+        </member>
+        <member name="T:PaytureDemoTerminal.Responses.ResponseXmlParser">
+            <summary>
+            Представляет класс для парсинга XML ответа от Api.
+            </summary>
+        </member>
+        <member name="M:PaytureDemoTerminal.Responses.ResponseXmlParser.Parse(System.String)">
+            <summary>
+            Выполняет парсинг Xml ответа.
+            </summary>
+            <param name="xmlDoc">Входящие Xml данные.</param>
+            <returns>Строка для вывода.</returns>
+            <exception cref="T:System.Xml.XmlException">Входящие данные содержат некорректный формат XML.</exception>
+            <exception cref="T:System.FormatException">Входящие данные содержат узлов XML.</exception>
+        </member>
+    </members>
+</doc>
