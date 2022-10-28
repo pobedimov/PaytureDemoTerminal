@@ -145,9 +145,10 @@ public sealed class PayOperationConsole : IPayOperation
 
             Console.WriteLine("Месяц истечения срока действия карты\r");
             string? eMonth = ConsoleOperator.InputDigitDataConsole(2);
-            payInfo.EMonth = !string.IsNullOrEmpty(eMonth)
-                ? payInfo.EMonth = eMonth
-                : payInfo.EMonth = "00";
+            if (!string.IsNullOrEmpty(eMonth) && int.Parse(eMonth) <= 12)
+                payInfo.EMonth = eMonth;
+            else
+                payInfo.EMonth = "00";
 
             Console.WriteLine("Год истечения срока действия карты\r");
             string? eYear = ConsoleOperator.InputDigitDataConsole(2);
