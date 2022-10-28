@@ -32,36 +32,10 @@ do
     {
         // Операция Pay с тестовыми параметрами из документации.
         case ConsoleKey.D1:
-            {          
-                try
-                {
-                    Console.Clear();
-                    IPayOperation payOperation = new PayOperationDemo();
+            {
+                Console.Clear();
 
-                    payOperation.DisplayOperationInfo();
-                    var responseString = await payOperation.PayAsync();
-
-                    Console.WriteLine("\n\rОтвет от Payture Api\n\r");
-                    Console.WriteLine($"{responseString}\r\n");
-                    string parcedString = ResponseXmlParser.Parse(responseString);
-                    Console.WriteLine(parcedString);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is FormatException || ex is XmlException)
-                    {
-                        Console.WriteLine($"Ошибка! Получен некорретный формат(XML) ответа на операцию.\n\r {ex}");
-                    }
-                    if (ex is HttpRequestException)
-                    {
-                        Console.WriteLine($"HTTP-ответ завершился неудачей.\n\r {ex}");
-                    }
-                    if (ex is UriFormatException || ex is FormatException)
-                    {
-                        Console.WriteLine($"Не задан или верный формат Uri Api.\n\r {ex}");
-                    }
-                    throw;
-                }
+                await PayOperationExecute(new PayOperationDemo());
 
                 Console.ReadKey();
                 MenuDisplay();
@@ -70,35 +44,9 @@ do
         // Операция Pay с ручным вводом параметров из консоли.
         case ConsoleKey.D2:
             {
-                try
-                {
-                    Console.Clear();
-                    IPayOperation payOperation = new PayOperationConsole();
+                Console.Clear();
 
-                    payOperation.DisplayOperationInfo();
-                    var responseString = await payOperation.PayAsync();
-
-                    Console.WriteLine("\n\rОтвет от Payture Api\n\r");
-                    Console.WriteLine($"{responseString}\r\n");
-                    string parcedString = ResponseXmlParser.Parse(responseString);
-                    Console.WriteLine(parcedString);
-                }
-                catch (Exception ex)
-                {
-                    if (ex is FormatException || ex is XmlException)
-                    {
-                        Console.WriteLine($"Ошибка! Получен некорретный формат(XML) ответа на операцию.\n\r {ex}");
-                    }
-                    if (ex is HttpRequestException)
-                    {
-                        Console.WriteLine($"HTTP-ответ завершился неудачей.\n\r {ex}");
-                    }
-                    if (ex is UriFormatException || ex is FormatException)
-                    {
-                        Console.WriteLine($"Не задан или верный формат Uri Api.\n\r {ex}");
-                    }
-                    throw;
-                }
+                await PayOperationExecute(new PayOperationConsole());
 
                 Console.ReadKey();
                 MenuDisplay();
@@ -109,3 +57,41 @@ do
     }
 }
 while (key.Key != ConsoleKey.Escape); // по нажатию на Escape завершаем цикл
+
+
+// Выполняет операцию.
+async Task PayOperationExecute(IPayOperation payOperation)
+{
+    try
+    {
+        IPayOperation operation = payOperation;
+
+        payOperation.DisplayOperationInfo();
+        var responseString = await operation.PayAsync();
+
+        Console.WriteLine("\n\rОтвет от Payture Api\n\r");
+        Console.WriteLine($"{responseString}\r\n");
+        string parcedString = ResponseXmlParser.Parse(responseString);
+        Console.WriteLine(parcedString);
+    }
+    catch (Exception ex)
+    {
+        if (ex is FormatException || ex is XmlException)
+        {
+            Console.WriteLine($"Ошибка! Получен некорретный формат(XML) ответа на операцию.\n\r {ex}");
+        }
+        if (ex is HttpRequestException)
+        {
+            Console.WriteLine($"HTTP-ответ завершился неудачей.\n\r {ex}");
+        }
+        if (ex is UriFormatException || ex is FormatException)
+        {
+            Console.WriteLine($"Не задан или верный формат Uri Api.\n\r {ex}");
+        }
+        if (ex is ArgumentNullException)
+        {
+            Console.WriteLine($"Не задан один из параметров для выполенения операции \n\r {ex}");
+        }
+        throw;
+    }
+}
