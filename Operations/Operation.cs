@@ -31,8 +31,15 @@ public static class Operation
             throw new ArgumentNullException(nameof(mediaTypeWithQualityHeaderValue), "В качестве входящего параметра передана пустая ссылка.");
         }
 
+        //Настройка пула соединений.
+        var socketsHandler = new SocketsHttpHandler
+        {
+            PooledConnectionLifetime = TimeSpan.FromMinutes(10),
+            PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),
+            MaxConnectionsPerServer = 2
+        };
 
-        using HttpClient client = new();
+        using HttpClient client = new(socketsHandler);
         client.BaseAddress = uri;
         client.DefaultRequestHeaders.Accept.Add(mediaTypeWithQualityHeaderValue);
 
